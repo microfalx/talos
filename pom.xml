@@ -25,7 +25,7 @@
 
     <groupId>net.microfalx.talos</groupId>
     <artifactId>talos</artifactId>
-    <version>1.0.6-SNAPSHOT</version>
+    <version>1.0.6</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -83,7 +83,7 @@
         <resource.version>1.0.3</resource.version>
         <metrics.version>1.0.2</metrics.version>
         <jvm.version>1.0.2</jvm.version>
-        <maven.version>3.9.16</maven.version>
+        <maven.version>3.10.0</maven.version>
         <maven-plugin-annotations.version>3.16.0</maven-plugin-annotations.version>
         <maven-common-artifact-filters.version>3.4.0</maven-common-artifact-filters.version>
         <maven-dependency-tree.version>3.3.0</maven-dependency-tree.version>
