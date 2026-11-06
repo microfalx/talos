@@ -20,6 +20,10 @@ import static net.microfalx.boot.BootstrapUtils.isNotEmpty;
 public class Bootstrap {
 
     private static final int EXIT_CODE = 10;
+    /**
+     * The exit code used by the JVM when <code>-XX:+ExitOnOutOfMemoryError</code> terminates the process.
+     */
+    private static final int OUT_OF_MEMORY_EXIT_CODE = 3;
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("HH:mm:ss");
 
     private final LocalDateTime startupTime = LocalDateTime.now();
@@ -170,6 +174,33 @@ public class Bootstrap {
     }
 
     /**
+     * Terminates the process when an {@link OutOfMemoryError} is not handled by the thread which raised it.
+     * <p>
+     * <code>-XX:+ExitOnOutOfMemoryError</code> only covers errors raised by the VM. The ones raised from Java code
+     * (direct buffer memory, for example) only kill the current thread, and the process would report a successful exit
+     * once the remaining threads complete.
+     * <p>
+     * The process is halted, like the JVM does, because shutdown hooks are not guaranteed to complete at this point.
+     *
+     * @param thread    the thread which failed
+     * @param throwable the failure
+     */
+    private void handleUncaughtException(Thread thread, Throwable throwable) {
+        boolean outOfMemory = throwable instanceof OutOfMemoryError;
+        try {
+            System.err.print("Exception in thread \"" + thread.getName() + "\" ");
+            throwable.printStackTrace(System.err);
+            if (outOfMemory) {
+                log("Terminating due to " + throwable + " in thread '" + thread.getName() + "'");
+            }
+        } catch (Throwable e) {
+            // the exit code must be reported even if there is not enough memory to report the failure
+        } finally {
+            if (outOfMemory) Runtime.getRuntime().halt(OUT_OF_MEMORY_EXIT_CODE);
+        }
+    }
+
+    /**
      * Returns the file which holds the process PID.
      *
      * @return a non-null instance
@@ -222,6 +253,7 @@ public class Bootstrap {
 
     public static void main(String[] args) {
         Bootstrap bootstrap = new Bootstrap();
+        Thread.setDefaultUncaughtExceptionHandler(bootstrap::handleUncaughtException);
         bootstrap.start(args);
     }
 
