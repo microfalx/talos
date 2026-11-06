@@ -78,11 +78,11 @@
 
     <properties>
         <java.version>17</java.version>
-        <bom.version>1.0.19</bom.version>
-        <lang.version>1.0.3</lang.version>
-        <resource.version>1.0.1</resource.version>
-        <metrics.version>1.0.1</metrics.version>
-        <jvm.version>1.0.1</jvm.version>
+        <bom.version>1.0.25</bom.version>
+        <lang.version>1.0.5</lang.version>
+        <resource.version>1.0.3</resource.version>
+        <metrics.version>1.0.2</metrics.version>
+        <jvm.version>1.0.2</jvm.version>
         <maven.version>3.8.8</maven.version>
         <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
         <maven-common-artifact-filters.version>3.4.0</maven-common-artifact-filters.version>
