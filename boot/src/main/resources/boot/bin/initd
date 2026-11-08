@@ -180,6 +180,7 @@ function profile {
     fi
     OPTIONS+=" -f $DUMP_FILE"
     echo "Profile application, options \"$OPTIONS\""
+    OPTIONS+=" --libpath ${APP_LIB}/profiler/libasyncProfiler.so"
     ${APP_BIN}/asprof $OPTIONS $PID
     echo "Profiler output available at $DUMP_FILE"
 }
