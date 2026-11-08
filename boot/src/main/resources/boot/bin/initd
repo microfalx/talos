@@ -195,22 +195,20 @@ function callJattach {
     echo "Dump application $DESC to '$DUMP_FILE'"
     if [[ $COMMAND = 'dumpheap' ]] ; then
         $APP_HOME/bin/jattach $PID $COMMAND $DUMP_FILE
-        cat $DUMP_FILE
     elif [[ $COMMAND = 'native' ]] ; then
         $APP_HOME/bin/jattach $PID jcmd VM.native_memory > $DUMP_FILE
     elif [[ $COMMAND = 'showheap' ]] ; then
         $APP_HOME/bin/jattach $PID jcmd GC.heap_info > $DUMP_FILE
-        cat $DUMP_FILE
+        cat $DUMP_FILE | head -n 30
     elif [[ $COMMAND = 'vminternals' ]] ; then
         $APP_HOME/bin/jattach $PID jcmd VM.stringtable > $DUMP_FILE
         $APP_HOME/bin/jattach $PID jcmd VM.symboltable >> $DUMP_FILE
         $APP_HOME/bin/jattach $PID jcmd VM.systemdictionary >> $DUMP_FILE
     elif [[ $COMMAND = 'vminfo' ]] ; then
         $APP_HOME/bin/jattach $PID jcmd VM.info > $DUMP_FILE
-        cat $DUMP_FILE
     else
         $APP_HOME/bin/jattach $PID $COMMAND > $DUMP_FILE
-        cat $DUMP_FILE
+        cat $DUMP_FILE | head -n 30
     fi
 }
 
